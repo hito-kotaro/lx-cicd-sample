@@ -17,3 +17,5 @@ jobs:
           aws-region: ap-northeast-1
       - run: aws sts get-caller-identity
       - run: aws s3 ls
+      - run: ls -la
+      - run: make -version
