@@ -37,7 +37,7 @@ Parameters:
   AcmCertificateArn:
       Type: String
       Description: for tag name
-      
+
  
   # SecurityTemplate:
   #   Description: Network template Object URL
