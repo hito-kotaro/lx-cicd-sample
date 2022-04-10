@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Provision of SecurityLayer
+
+# パラメータ
+Parameters:
+  EnvTag:
+    Type: String
+    Description: Environment Name
+
+  Prefix:
+    Type: String
+    Description: prefix for tag name
+
+  VpcId:
+    Type: String
+
+Resources:
+
+  SgAlb:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: ALB security group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        # https
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: '0.0.0.0/0'
+        # alt https
+        - IpProtocol: tcp
+          FromPort: 4430
+          ToPort: 4430
+          CidrIp: '0.0.0.0/0'
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvTag}-${Prefix}-alb'
+
+Outputs:
+
+  SgAlb:
+    Value: !Ref SgAlb
