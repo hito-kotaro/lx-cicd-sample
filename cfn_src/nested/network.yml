@@ -117,15 +117,15 @@ Resources:
       RouteTableId: !Ref RouteTableForPublicSubnet
 
 
-# Outputs:
-#   VpcId:
-#     Value: !Ref Vpc
-#     Description: VPC id
+Outputs:
+  VpcId:
+    Value: !Ref Vpc
+    Description: VPC id
 
-#   SubnetPublic1a1:
-#     Value: !Ref Public1a1
-#     Description: public subnet 1a 1
+  SubnetPublic1a1:
+    Value: !Ref Public1a1
+    Description: public subnet 1a 1
   
-#   SubnetPublic1c1:
-#     Value: !Ref Public1c1
-#     Description: public subnet 1c 1
+  SubnetPublic1c1:
+    Value: !Ref Public1c1
+    Description: public subnet 1c 1
