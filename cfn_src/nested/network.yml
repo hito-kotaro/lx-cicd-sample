@@ -29,4 +29,103 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub '${EnvTag}-${Prefix}-vpc'
-    
+  Igw:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvTag}-${Prefix}-igw'
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref Igw
+
+##----------------------------------##
+# Subnets
+##----------------------------------##
+
+  Public1a1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      VpcId: !Ref Vpc
+      CidrBlock: !Sub 10.${EnvIp}.10.0/24
+      MapPublicIpOnLaunch: 'true'
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvTag}-${Prefix}-public-1a-1'
+
+  # Private1a1:
+  #   Type: AWS::EC2::Subnet
+  #   Properties:
+  #     AvailabilityZone: ap-northeast-1a
+  #     VpcId: !Ref Vpc
+  #     CidrBlock: !Sub 10.${EnvIp}.11.0/24
+  #     Tags:
+  #       - Key: Name
+  #         Value: !Sub '${EnvTag}-${Prefix}-private-1a-1'
+
+  Public1c1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      VpcId: !Ref Vpc
+      CidrBlock: !Sub 10.${EnvIp}.20.0/24
+      MapPublicIpOnLaunch: 'true'
+      Tags:
+        - Key: Name
+          Value: !Sub '${EnvTag}-${Prefix}-public-1c-1'
+
+  # Private1c1:
+  #   Type: AWS::EC2::Subnet
+  #   Properties:
+  #     AvailabilityZone: ap-northeast-1a
+  #     VpcId: !Ref Vpc
+  #     CidrBlock: !Sub 10.${EnvIp}.21.0/24
+  #     Tags:
+  #       - Key: Name
+  #         Value: !Sub '${EnvTag}-${Prefix}-private-1c-1'
+
+  # public route table 
+  RouteTableForPublicSubnet:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: Name
+          Value: ${EnvTag}-${Prefix}-public
+  
+  DefaultRouteForPublicSubnet:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref RouteTableForPublicSubnet
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref Igw
+
+  RouteAssocPubSubnet1a:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref Public1a1
+      RouteTableId: !Ref RouteTableForPublicSubnet
+
+  RouteAssocPubSubnet1c:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref Public1c1
+      RouteTableId: !Ref RouteTableForPublicSubnet
+
+
+# Outputs:
+#   VpcId:
+#     Value: !Ref Vpc
+#     Description: VPC id
+
+#   SubnetPublic1a1:
+#     Value: !Ref Public1a1
+#     Description: public subnet 1a 1
+  
+#   SubnetPublic1c1:
+#     Value: !Ref Public1c1
+#     Description: public subnet 1c 1

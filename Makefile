@@ -15,5 +15,7 @@ deploy:
 	aws cloudformation deploy \
 		--template-file ./build/cloudformation.yml \
 		--stack-name ${STACK_NAME} \
+		--parameter-overrides `cat ./cfn_src/params/params.properties`
+
 
 all: package deploy

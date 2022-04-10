@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Manage myself verification environment
+Mappings:
+  EnvMap:
+    pro:
+      EnvIp: '10'
+      Cidr: 10.10.0.0/16
+    stg:
+      EnvIp: '20'
+      Cidr: 10.20.0.0/16
+    dev:
+      EnvIp: '30'
+      Cidr: 10.30.0.0/16
+Parameters:
+  EnvTag:
+    Type: String
+    Description: Environment Name
+    AllowedValues:
+    - pro
+    - stg
+    - dev
+    Default: dev
+  Prefix:
+    Type: String
+    Description: for tag name
+    Default: nt
+Resources:
+  NetworkLayer:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.ap-northeast-1.amazonaws.com/lx-cicd-sample-296066267476/cloudformation/f5563a49f5ac7ad9d9f1f19d978c7906.template
+      Parameters:
+        EnvTag:
+          Ref: EnvTag
+        EnvIp:
+          Fn::FindInMap:
+          - EnvMap
+          - Ref: EnvTag
+          - EnvIp
+        Prefix:
+          Ref: Prefix
