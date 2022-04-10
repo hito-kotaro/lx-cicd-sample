@@ -16,6 +16,8 @@ Mappings:
       EnvIp: "30"
       Cidr: "10.30.0.0/16"
 
+
+
 Parameters: 
 
   EnvTag:
@@ -31,6 +33,11 @@ Parameters:
     Type: String
     Description: for tag name
     Default: nt
+  
+  AcmCertificateArn:
+      Type: String
+      Description: for tag name
+      
  
   # SecurityTemplate:
   #   Description: Network template Object URL
@@ -61,7 +68,22 @@ Resources:
         EnvTag: !Ref EnvTag
         Prefix: !Ref Prefix
         VpcId: !GetAtt NetworkLayer.Outputs.VpcId
-  
+
+    
+  AppLayer:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: SecurityLayer
+    Properties:
+      TemplateURL: ./nested/app.yml
+      Parameters:
+        EnvTag: !Ref EnvTag
+        Prefix: !Ref Prefix
+        AcmCertificateArn: !Ref AcmCertificateArn
+        VpcId: !GetAtt NetworkLayer.Outputs.VpcId
+        SubnetPublic1a1: !GetAtt NetworkLayer.Outputs.SubnetPublic1a1
+        SubnetPublic1c1: !GetAtt NetworkLayer.Outputs.SubnetPublic1c1
+        SgAlb: !GetAtt SecurityLayer.Outputs.SgAlb
+        
 
 
 
