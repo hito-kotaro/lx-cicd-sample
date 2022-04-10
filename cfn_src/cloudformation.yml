@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Manage myself verification environment
+
+Mappings:
+  EnvMap:
+    pro:
+      # EnvTag: "pro"
+      EnvIp: "10"
+      Cidr: "10.10.0.0/16"
+    stg:
+      # EnvTag: "stg"
+      EnvIp: "20"
+      Cidr: "10.20.0.0/16"
+    dev:
+      # EnvTag: "dev"
+      EnvIp: "30"
+      Cidr: "10.30.0.0/16"
+
+Parameters: 
+
+  EnvTag:
+    Type: String
+    Description: Environment Name 
+    AllowedValues:
+      - pro
+      - stg
+      - dev
+    Default: dev
+
+  Prefix:
+    Type: String
+    Description: for tag name
+    Default: nt
+ 
+  # SecurityTemplate:
+  #   Description: Network template Object URL
+  #   Type: String
+  #   Default: ./nested/security.yml
+  
+  # AlbTemplate:
+  #   Description: Alb template Object URL
+  #   Type: String
+  #   Default: ./nested/app.yml
+
+Resources:
+
+  NetworkLayer:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./nested/network.yml
+      Parameters:
+        EnvTag: !Ref EnvTag
+        EnvIp: !FindInMap ["EnvMap", !Ref EnvTag, "EnvIp"]
+        Prefix: !Ref Prefix
+
+
+
+
