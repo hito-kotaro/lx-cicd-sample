@@ -53,6 +53,15 @@ Resources:
         EnvIp: !FindInMap ["EnvMap", !Ref EnvTag, "EnvIp"]
         Prefix: !Ref Prefix
 
+  SecurityLayer:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./nested/security.yml
+      Parameters:
+        EnvTag: !Ref EnvTag
+        Prefix: !Ref Prefix
+        VpcId: !GetAtt NetworkLayer.Outputs.VpcId
+
 
 
 
