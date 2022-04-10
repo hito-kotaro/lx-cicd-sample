@@ -110,11 +110,11 @@ Resources:
       SubnetId: !Ref Public1a1
       RouteTableId: !Ref RouteTableForPublicSubnet
 
-  RouteAssocPubSubnet1c:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      SubnetId: !Ref Public1c1
-      RouteTableId: !Ref RouteTableForPublicSubnet
+  # RouteAssocPubSubnet1c:
+  #   Type: AWS::EC2::SubnetRouteTableAssociation
+  #   Properties:
+  #     SubnetId: !Ref Public1c1
+  #     RouteTableId: !Ref RouteTableForPublicSubnet
 
 
 Outputs:
@@ -126,6 +126,6 @@ Outputs:
     Value: !Ref Public1a1
     Description: public subnet 1a 1
   
-  SubnetPublic1c1:
-    Value: !Ref Public1c1
-    Description: public subnet 1c 1
+  # SubnetPublic1c1:
+  #   Value: !Ref Public1c1
+  #   Description: public subnet 1c 1
