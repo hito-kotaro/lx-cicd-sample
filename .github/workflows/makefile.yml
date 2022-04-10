@@ -7,7 +7,7 @@ permissions:
   contents: read # actions/checkout のために必要
 
 jobs:
-  get-caller-identity:
+  deploy-cloudformation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,7 +15,4 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github_action_role
           aws-region: ap-northeast-1
-      - run: aws sts get-caller-identity
-      - run: aws s3 ls
-      - run: ls -la
       - run: make all
