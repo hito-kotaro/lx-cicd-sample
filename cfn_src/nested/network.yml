@@ -70,7 +70,7 @@ Resources:
   Public1c1:
     Type: AWS::EC2::Subnet
     Properties:
-      AvailabilityZone: ap-northeast-1a
+      AvailabilityZone: ap-northeast-1c
       VpcId: !Ref Vpc
       CidrBlock: !Sub 10.${EnvIp}.20.0/24
       MapPublicIpOnLaunch: 'true'
