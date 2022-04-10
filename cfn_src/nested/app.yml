@@ -87,3 +87,11 @@ Resources:
       DefaultActions:
         - Type: forward
           TargetGroupArn: !Ref AlbTgGreen
+  
+  ECR:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Sub ${EnvTag}-${Prefix}-ecr
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvTag}-${Prefix}-ecr
